@@ -1,0 +1,9 @@
+"lsblk" systemspeicher auf dem server checken, habe 256gb ingesamt aber mein system root benutzt nur 100gb
+ ziel ist es diesen speicher zu erweitern bzw. mehr speicher zuzuweisen auf den server um volle kapazität zu nutzen
+1. Prüfen, wie viel frei ist
+sudo vgdisplay 
+  Alloc PE / Size       25600 / 100.00 GiB
+  Free  PE / Size       34668 / 135.42 GiB
+Ich habe noch freien Speicher im LVM. Mit dem Befehl
+sudo lvextend -r -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
+nehme ich den gesamten freien Platz und hänge ihn an mein Root-Laufwerk (/) dran. Dabei wird erst das Logical Volume größer gemacht und danach automatisch das Dateisystem angepasst, damit ich den Platz auch nutzen kann. Am Ende habe ich einfach mehr Speicher auf /, ohne Datenverlust oder Neuinstallation.
